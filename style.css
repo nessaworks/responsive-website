@@ -1,0 +1,25 @@
+/* boiler plate */
+/* for all, before n after pseudo-elements */
+*,
+*::before,
+*::after {
+  /* paddding n border do not add on top of any height n width set on an alement but included in the final size */
+  box-sizing: border-box;
+}
+* {
+  /* reset baked in styles */
+  margin: 0;
+}
+/* remove underline */
+a {
+  text-decoration: none;
+}
+img,
+picture,
+svg {
+  /* prevent horizontal scrolling */
+  /* wont be larger than their parent */
+  max-width: 100%;
+  /* layouts positioning n rid of space caused by inline elements */
+  display: block;
+}
