@@ -1,25 +1,150 @@
-/* boiler plate */
-/* for all, before n after pseudo-elements */
-*,
-*::before,
-*::after {
-  /* paddding n border do not add on top of any height n width set on an alement but included in the final size */
-  box-sizing: border-box;
+/* layers so the component styles override the global */
+/* order of overwrite*/
+@layer global, component, utility;
+
+@layer global {
+  /* css custom/style properties */
+  /* fonts */
+  @font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Source Sans 3";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/source-sans-3-v19-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  }
+  /* source-sans-3-700 - latin */
+  @font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Source Sans 3";
+    font-style: normal;
+    font-weight: 700;
+    src: url("/fonts/source-sans-3-v19-latin-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  }
+  :root {
+    /* alt+shift+downarrow-duplicate */
+    /* nav */
+    ---fs-14: calc(14 / 16 * 1rem);
+    ---fs-16: calc(16 / 16 * 1rem);
+    /* h1 */
+    ---fs-42: calc(42 / 16 * 1rem);
+    ---fs-72: calc(72 / 16 * 1rem);
+    /* h2 */
+    ---fs-36: calc(36 / 16 * 1rem);
+    ---fs-48: calc(48 / 16 * 1rem);
+    /* h3 */
+    ---fs-: calc(24/16 * 1rem);
+
+    --font-size-topnav: var(---fs-14);
+    --font-size-h1: var(---fs-42);
+    --font-size-h2: var(---fs-36);
+    --font-size-h2: var(---fs-24);
+
+    @media (width >= calc(600 / 16 * 1rem)) {
+      --font-size-topnav: var(---fs-16);
+      --font-size-h1: var(---fs-72);
+      --font-size-h2: var(---fs-48);
+    }
+  }
+  /* colors */
+  :root {
+    --c-white: hsl(0, 0%, 100%);
+    --c-gray-dark: hsl(240, 12%, 26%);
+    --c-purple: #495bcf;
+    --c-teal: #00d3da;
+    /* black with 0% opacity */
+    --c-transparent: transparent;
+    --c-magenta: #bf1085;
+
+    --color-main-bg: var(--c-white);
+    --color-text-dark: var(--c-gray-dark);
+    --color-text-light: var(--c-white);
+    --color-hero-bg: var(--c-purple);
+    --color-btn-primary-bg: var(--c-teal);
+    --color-btn-primary-text: var(--c-gray-dark);
+    --color-btn-secondary-bg: var(--c-transparent);
+    --color-btn-secondary-border: var(--c-white);
+    --color-btn-secondary-text: var(--c-transparent);
+    --color-fullwidth-bg: var(--c-magenta);
+  }
+
+  /* boiler plate */
+  /* for all, before n after pseudo-elements */
+  *,
+  *::before,
+  *::after {
+    /* paddding n border do not add on top of any height n width set on an alement but included in the final size */
+    box-sizing: border-box;
+  }
+  * {
+    /* reset baked in styles */
+    margin: 0;
+  }
+  body {
+    /* every element on the page-gets inherited to all elements unless changed */
+    font-family: "Source Sans 3", Arial, Helvetica, sans-serif;
+    line-height: 1.3;
+    color: var(--color-text-dark);
+  }
+  /* wildcard/global selectors */
+  /* compound selector */
+  h1,
+  h2,
+  h3 {
+    /* 110% of the font size */
+    /* relative without unit-changes based on fs*/
+    line-height: 1.1;
+  }
+  h1 {
+    font-size: var(--font-size-h1);
+    /* amount of space each line of text takes up */
+  }
+  h2 {
+    font-size: var(--font-size-h2);
+  }
+  h3 {
+    font-size: var(--font-size-h3);
+  }
+  /* remove underline */
+  a {
+    text-decoration: none;
+  }
+  img,
+  picture,
+  svg {
+    /* prevent horizontal scrolling */
+    /* wont be larger than their parent */
+    max-width: 100%;
+    /* layouts positioning n rid of space caused by inline elements */
+    display: block;
+  }
+  /* how to behave */
+  .wrapper {
+    /*mobile-(327px) 100% of availabile width (left+right)24+24=48 100%-48*/
+    /* website */
+    /* (max-width:200px) */
+    /* min function-2paramenters */
+    /* mobile-(100%)375px-48px=327, 1200px-smallest is picked first-depeding on size */
+    /* rem for font size -scale up if browsers base font-size changes +widths of elements+media querries  */
+    /* px fo things u dont want to chang/get larger when fontsize increases-margins,padding,border-radius */
+    width: min(calc(100%-48px), calc(1200 / 16 * 1rem));
+    /* centered -margins on both sides take up equal widths-left n right(margin(0 auto)*/
+
+    margin-inline: auto;
+  }
 }
-* {
-  /* reset baked in styles */
-  margin: 0;
+
+@layer component {
 }
-/* remove underline */
-a {
-  text-decoration: none;
-}
-img,
-picture,
-svg {
-  /* prevent horizontal scrolling */
-  /* wont be larger than their parent */
-  max-width: 100%;
-  /* layouts positioning n rid of space caused by inline elements */
-  display: block;
+
+/* override any style if it gets used on an element */
+@layer utility {
+  /* hide elements th still exist in the dom for screen readers */
+  .visually-hidden {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
 }
